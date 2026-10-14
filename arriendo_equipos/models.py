@@ -3,7 +3,7 @@ from django.db import models
 class Equipo(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
-    precio_arriendo = models.DecimalField(max_digits=10, decimal_places=2, help_text="Precio en CLP")
+    precio_arriendo = models.BigIntegerField(help_text="Precio en CLP")
     disponible = models.BooleanField(default=True)
 
     def __str__(self):
@@ -14,7 +14,11 @@ class Arriendo(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     cliente = models.CharField(max_length=100)
-    precio_arriendo = models.DecimalField(max_digits=10, decimal_places=2, help_text="Precio en CLP")
+    precio_arriendo = models.BigIntegerField(help_text="Precio en CLP")
 
     def __str__(self):
-        return f"{self.cliente} - {self.equipo.nombre} - {self.precio_arriendo} CLP"
+        precio = self.precio_arriendo if self.precio_arriendo is not None else 0
+        precio_formateado = "${:,.0f}".format(precio).replace(",", ".")
+        nombre_equipo = self.equipo.nombre if self.equipo else "Equipo sin asignar"
+        return f"{self.cliente} - {nombre_equipo} - ${precio_formateado}"
+        

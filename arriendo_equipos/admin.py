@@ -12,3 +12,4 @@ class ArriendoAdmin(admin.ModelAdmin):
     list_display = ('equipo', 'fecha_inicio', 'fecha_fin', 'cliente', 'precio_arriendo')
     list_filter = ('fecha_inicio', 'fecha_fin')
     search_fields = ('cliente', 'equipo__nombre')
+    
